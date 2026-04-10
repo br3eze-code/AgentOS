@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@agentclaw/kernel": ["packages/kernel/src"],
+      "@agentclaw/agents": ["packages/agents/src"],
+      "@agentclaw/shared": ["packages/shared/src"],
+      "@agentclaw/db": ["packages/db/src"],
+      "@agentclaw/mikrotik": ["packages/mikrotik/src"],
+      "@agentclaw/ecommerce": ["packages/ecommerce/src"],
+      "@agentclaw/pos-dashboard": ["packages/pos-dashboard/src"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

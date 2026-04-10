@@ -1,0 +1,29 @@
+{
+  "name": "agentclaw",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "db:migrate": "cd packages/db && npx prisma migrate deploy",
+    "db:generate": "cd packages/db && npx prisma generate",
+    "db:seed": "cd packages/db && npx ts-node seed.ts",
+    "db:studio": "cd packages/db && npx prisma studio"
+  },
+  "devDependencies": {
+    "turbo": "^1.13.3",
+    "typescript": "^5.4.5",
+    "@types/node": "^20.14.0",
+    "ts-node": "^10.9.2",
+    "prettier": "^3.3.2",
+    "eslint": "^8.57.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
