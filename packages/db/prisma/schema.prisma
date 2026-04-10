@@ -1,0 +1,387 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// USERS & ROLES
+// ============================================================
+
+enum Role {
+  ADMIN
+  PARTNER
+  CASHIER
+  USER
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  phone        String?
+  role         Role     @default(USER)
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  partner       Partner?
+  cashier       Cashier?
+  notifications Notification[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+// ============================================================
+// PARTNERS & COUNTERS (SHOPS)
+// ============================================================
+
+model Partner {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  shopName  String
+  address   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user      User      @relation(fields: [userId], references: [id])
+  counters  Counter[]
+  wallet    Wallet?
+
+  @@map("partners")
+}
+
+model Counter {
+  id        String   @id @default(uuid())
+  partnerId String
+  name      String
+  location  String?
+  createdAt DateTime @default(now())
+
+  // Relations
+  partner  Partner   @relation(fields: [partnerId], references: [id])
+  cashiers Cashier[]
+  sales    Payment[]
+
+  @@map("counters")
+}
+
+model Cashier {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  counterId String
+  createdAt DateTime @default(now())
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id])
+  counter Counter @relation(fields: [counterId], references: [id])
+  wallet  Wallet?
+
+  @@map("cashiers")
+}
+
+// ============================================================
+// WALLET
+// ============================================================
+
+model Wallet {
+  id         String   @id @default(uuid())
+  partnerId  String?  @unique
+  cashierId  String?  @unique
+  balance    Float    @default(0.0)
+  currency   String   @default("USD")
+  updatedAt  DateTime @updatedAt
+
+  // Relations
+  partner  Partner?  @relation(fields: [partnerId], references: [id])
+  cashier  Cashier?  @relation(fields: [cashierId], references: [id])
+
+  @@map("wallets")
+}
+
+// ============================================================
+// PLANS
+// ============================================================
+
+model Plan {
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  durationHours  Int
+  dataLimitMB    Int?     // null = unlimited
+  speedLimitKbps Int?     // null = unlimited
+  priceRetail    Float
+  priceWholesale Float
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  vouchers Voucher[]
+
+  @@map("plans")
+}
+
+// ============================================================
+// VOUCHERS
+// ============================================================
+
+enum VoucherStatus {
+  QUEUED
+  ACTIVE
+  USED
+  EXPIRED
+  CANCELLED
+}
+
+model Voucher {
+  id          String        @id @default(uuid())
+  code        String        @unique
+  planId      String
+  status      VoucherStatus @default(QUEUED)
+  maxUsage    Int           @default(1)
+  usageCount  Int           @default(0)
+  macAddress  String?
+  ipAddress   String?
+  hotspotId   String?
+  soldAt      DateTime?
+  activatedAt DateTime?
+  validUntil  DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  plan      Plan       @relation(fields: [planId], references: [id])
+  hotspot   Hotspot?   @relation(fields: [hotspotId], references: [id])
+  payments  Payment[]
+  sessions  Session[]
+  printJobs PrintJob[]
+
+  @@map("vouchers")
+}
+
+// ============================================================
+// HOTSPOTS
+// ============================================================
+
+model Hotspot {
+  id          String   @id @default(uuid())
+  name        String
+  routerIp    String
+  apiPort     Int      @default(8728)
+  apiUser     String   @default("admin")
+  apiPassword String
+  location    String?
+  isOnline    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  vouchers        Voucher[]
+  sessions        Session[]
+  predictiveLogs  PredictiveLog[]
+
+  @@map("hotspots")
+}
+
+// ============================================================
+// SESSIONS
+// ============================================================
+
+enum SessionStatus {
+  ACTIVE
+  ENDED
+  ROAMED
+}
+
+model Session {
+  id         String        @id @default(uuid())
+  voucherId  String
+  hotspotId  String
+  userId     String?
+  macAddress String
+  ipAddress  String?
+  status     SessionStatus @default(ACTIVE)
+  bytesUp    BigInt        @default(0)
+  bytesDown  BigInt        @default(0)
+  startTime  DateTime      @default(now())
+  endTime    DateTime?
+  updatedAt  DateTime      @updatedAt
+
+  // Relations
+  voucher Voucher @relation(fields: [voucherId], references: [id])
+  hotspot Hotspot @relation(fields: [hotspotId], references: [id])
+  user    User?   @relation(fields: [userId], references: [id])
+
+  @@map("sessions")
+}
+
+// ============================================================
+// PAYMENTS
+// ============================================================
+
+enum PaymentMethod {
+  CASH
+  WALLET
+  STRIPE
+  ECOCASH
+  ZIPIT
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  voucherId       String?
+  counterId       String?
+  amount          Float
+  currency        String        @default("USD")
+  method          PaymentMethod
+  status          PaymentStatus @default(PENDING)
+  externalRef     String?       // Stripe charge ID, EcoCash ref, etc.
+  notes           String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  voucher Voucher? @relation(fields: [voucherId], references: [id])
+  counter Counter? @relation(fields: [counterId], references: [id])
+
+  @@map("payments")
+}
+
+// ============================================================
+// PRINT JOBS
+// ============================================================
+
+enum PrintJobStatus {
+  QUEUED
+  PRINTING
+  DONE
+  FAILED
+}
+
+model PrintJob {
+  id          String         @id @default(uuid())
+  voucherId   String
+  printerName String
+  status      PrintJobStatus @default(QUEUED)
+  attempts    Int            @default(0)
+  errorMsg    String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  // Relations
+  voucher Voucher @relation(fields: [voucherId], references: [id])
+
+  @@map("print_jobs")
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+enum NotificationChannel {
+  EMAIL
+  WHATSAPP
+  PUSH
+  PORTAL
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model Notification {
+  id        String              @id @default(uuid())
+  userId    String
+  channel   NotificationChannel
+  subject   String?
+  message   String              @db.Text
+  status    NotificationStatus  @default(PENDING)
+  sentAt    DateTime?
+  createdAt DateTime            @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+// ============================================================
+// PREDICTIVE LOGS
+// ============================================================
+
+model PredictiveLog {
+  id              String   @id @default(uuid())
+  hotspotId       String
+  activeSessions  Int
+  queuedVouchers  Int
+  loadPercent     Float
+  alertSent       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+
+  // Relations
+  hotspot Hotspot @relation(fields: [hotspotId], references: [id])
+
+  @@map("predictive_logs")
+}
+
+// ============================================================
+// ORDERS (E-COMMERCE)
+// ============================================================
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  FULFILLED
+  CANCELLED
+}
+
+model Order {
+  id         String      @id @default(uuid())
+  email      String
+  phone      String?
+  totalAmount Float
+  currency   String      @default("USD")
+  status     OrderStatus @default(PENDING)
+  paymentRef String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  // Relations
+  items OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  String
+  planId   String?
+  product  String  // plan name or product name
+  quantity Int
+  price    Float
+
+  // Relations
+  order Order @relation(fields: [orderId], references: [id])
+
+  @@map("order_items")
+}
