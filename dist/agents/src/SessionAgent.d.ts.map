@@ -1,0 +1,1 @@
+{"version":3,"file":"SessionAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/SessionAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAA+C,MAAM,mBAAmB,CAAC;AAGxF,qBAAa,YAAa,YAAW,MAAM;IACzC,QAAQ,CAAC,IAAI,kBAAkB;IAEzB,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAiBtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAEb,cAAc;CAwD7B"}

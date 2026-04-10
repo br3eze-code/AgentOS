@@ -1,0 +1,1 @@
+{"version":3,"file":"TrafficAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/TrafficAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAqC,MAAM,mBAAmB,CAAC;AAE9E,qBAAa,YAAa,YAAW,MAAM;IACzC,QAAQ,CAAC,IAAI,kBAAkB;IAEzB,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAkBtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAEb,QAAQ;CAUvB"}

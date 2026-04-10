@@ -1,0 +1,1 @@
+{"version":3,"file":"PartnerAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/PartnerAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAqC,MAAM,mBAAmB,CAAC;AAE9E,qBAAa,YAAa,YAAW,MAAM;IACzC,QAAQ,CAAC,IAAI,kBAAkB;IAEzB,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IA2BtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAEb,eAAe;YAWf,gBAAgB;CAI/B"}

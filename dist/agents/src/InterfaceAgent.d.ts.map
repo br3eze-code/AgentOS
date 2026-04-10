@@ -1,0 +1,1 @@
+{"version":3,"file":"InterfaceAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/InterfaceAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAqC,MAAM,mBAAmB,CAAC;AAE9E,qBAAa,cAAe,YAAW,MAAM;IAC3C,QAAQ,CAAC,IAAI,oBAAoB;IAE3B,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAqBtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAIb,cAAc;YAOd,YAAY;CAW3B"}

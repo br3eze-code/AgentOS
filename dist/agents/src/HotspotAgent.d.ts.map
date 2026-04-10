@@ -1,0 +1,1 @@
+{"version":3,"file":"HotspotAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/HotspotAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAA4D,MAAM,mBAAmB,CAAC;AAGrG,qBAAa,YAAa,YAAW,MAAM;IACzC,QAAQ,CAAC,IAAI,kBAAkB;IAEzB,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAsCtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAIb,YAAY;YAiCZ,aAAa;YAgBb,SAAS;CAuExB"}

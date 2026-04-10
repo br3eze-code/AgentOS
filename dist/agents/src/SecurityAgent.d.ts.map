@@ -1,0 +1,1 @@
+{"version":3,"file":"SecurityAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/SecurityAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAA+C,MAAM,mBAAmB,CAAC;AAExF,qBAAa,aAAc,YAAW,MAAM;IAC1C,QAAQ,CAAC,IAAI,mBAAmB;IAChC,OAAO,CAAC,QAAQ,CAAkC;IAE5C,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAqBtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAEb,QAAQ;YAkBR,SAAS;CAGxB"}

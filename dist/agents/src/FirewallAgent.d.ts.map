@@ -1,0 +1,1 @@
+{"version":3,"file":"FirewallAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/FirewallAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAqC,MAAM,mBAAmB,CAAC;AAE9E,qBAAa,aAAc,YAAW,MAAM;IAC1C,QAAQ,CAAC,IAAI,mBAAmB;IAE1B,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAmBtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAEb,OAAO;CAMtB"}
