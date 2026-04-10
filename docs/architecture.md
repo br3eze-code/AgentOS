@@ -1,0 +1,87 @@
+# AgentClaw — Architecture Overview
+
+## System Architecture
+
+AgentClaw is a **monorepo** built on Node.js/TypeScript, organized as a Turborepo workspace. All packages communicate through a shared **EventBus** and a **single MySQL database** via Prisma ORM.
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│                     AgentClaw Monorepo                        │
+│                                                               │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐   │
+│  │   API    │  │  POS     │  │ Ecommerce│  │    CLI       │   │
+│  │ :4000    │  │ :3000    │  │ :3001    │  │  agentos ... │   │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └──────┬───────┘   │
+│       │             │              │                │         │
+│  ─────┴─────────────┴──────────────┴────────────────┘         │
+│                    @agentclaw/kernel                          │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  Kernel: EventBus · AgentRegistry · MemoryManager       │  │
+│  │          Config · Database · Logger                     │  │
+│  └─────────────────┬───────────────────────────────────────┘  │
+│                    │ EventBus                                 │
+│  ┌─────────────────┼───────────────────────────────────────┐  │
+│  │             @agentclaw/agents                           │  │
+│  │  ┌───────────┐ ┌───────────┐ ┌───────────┐              │  │
+│  │  │Voucher    │ │Hotspot    │ │Payment    │              │  │
+│  │  │Agent      │ │Agent      │ │Agent      │              │  │
+│  │  └───────────┘ └─────┬─────┘ └───────────┘              │  │
+│  │  ┌───────────┐ ┌─────┴─────┐ ┌───────────┐              │  │
+│  │  │Printer    │ │Notifier   │ │Predictive │              │  │
+│  │  │Agent      │ │Agent      │ │Agent      │              │  │
+│  │  └───────────┘ └───────────┘ └───────────┘              │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │            Data Layer                                   │  │
+│  │  MySQL (Prisma) · Redis (MemoryManager)                 │  │
+│  └─────────────────────────────────────────────────────────┘  │
+│                                                               │
+│  ┌───────────────────────┐  ┌──────────────────────────────┐  │
+│  │  @agentclaw/mikrotik  │  │  @agentclaw/shared           │  │
+│  │  RouterOSClient       │  │  Types · Constants           │  │
+│  │  RadiusAdapter        │  │                              │  │
+│  └───────────────────────┘  └──────────────────────────────┘  │
+└───────────────────────────────────────────────────────────────┘
+```
+
+## Package Dependencies
+
+```
+kernel → shared, db
+agents → kernel, shared, db
+mikrotik → kernel, shared, db
+api → kernel, agents, mikrotik, shared, db
+cli → kernel, agents, shared, db
+pos-dashboard → (standalone, calls api via HTTP)
+ecommerce → (standalone, calls api via HTTP)
+```
+
+## Data Flow
+
+```
+User Request (POS/Web)
+  → API Server (Express)
+  → Agent (via app.locals or direct call)
+  → EventBus (publish event)
+  → Subscribed Agents respond (Notifier, Printer, Predictive)
+  → Database (Prisma write)
+  → Redis (MemoryManager cache)
+```
+
+## Technology Stack
+
+| Layer | Technology |
+|---|---|
+| Core Kernel | Node.js 18+, TypeScript 5 |
+| Database ORM | Prisma 5, MySQL 8 |
+| Cache / Queue | Redis 7 (via ioredis) |
+| API Server | Express 4 with JWT auth |
+| POS Dashboard | Next.js 14 (React 18) |
+| E-Commerce | Next.js 14 (React 18, Stripe Elements) |
+| CLI | Commander.js + Chalk |
+| Notifications | Nodemailer, Axios (WhatsApp), Firebase Admin |
+| Printing | ESC/POS over TCP/IP (port 9100) |
+| MikroTik | node-routeros + custom RADIUS server |
+| Predictive | node-cron + Prisma aggregation |
+| Monorepo | Turborepo + npm workspaces |
