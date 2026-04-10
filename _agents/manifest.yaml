@@ -1,0 +1,13 @@
+name: orchestrator
+version: 1.0.0
+description: Core OpenClaw Orchestrator
+main: index.js
+permissions:
+  - database:read
+  - database:write
+  - events:publish
+  - events:subscribe
+  - hardware:control
+instructions: AGENTS.md
+soul: SOUL.md
+tools: TOOLS.md
