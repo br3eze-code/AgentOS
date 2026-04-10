@@ -1,0 +1,1 @@
+{"version":3,"file":"Moltbook.d.ts","sourceRoot":"","sources":["../../../packages/kernel/src/Moltbook.ts"],"names":[],"mappings":"AAKA;;;GAGG;AACH,qBAAa,gBAAgB;IAE3B;;;OAGG;WACU,aAAa,CAAC,aAAa,EAAE,MAAM,EAAE,WAAW,GAAE,MAAM,CAAC,MAAM,EAAE,GAAG,CAAM,GAAG,OAAO,CAAC,GAAG,CAAC;WA+BzF,WAAW,CAAC,QAAQ,EAAE,MAAM,EAAE,WAAW,GAAE,MAAM,CAAC,MAAM,EAAE,GAAG,CAAM,GAAG,OAAO,CAAC,GAAG,CAAC;CAOhG"}

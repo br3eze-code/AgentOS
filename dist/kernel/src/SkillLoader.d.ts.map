@@ -1,0 +1,1 @@
+{"version":3,"file":"SkillLoader.d.ts","sourceRoot":"","sources":["../../../packages/kernel/src/SkillLoader.ts"],"names":[],"mappings":"AAMA,qBAAa,WAAW;IACtB,OAAO,CAAC,MAAM,CAAC,QAAQ,CAAc;IAErC,OAAO;IAEP,MAAM,CAAC,WAAW,IAAI,WAAW;IAO3B,UAAU,CAAC,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,CAAC;IAgB5C,SAAS,CAAC,SAAS,EAAE,MAAM,GAAG,OAAO,CAAC,IAAI,CAAC;CA+BlD;AAED,eAAO,MAAM,WAAW,aAA4B,CAAC"}
