@@ -1,0 +1,33 @@
+{
+  "name": "@agentclaw/agents",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@agentclaw/kernel": "*",
+    "@agentclaw/shared": "*",
+    "@agentclaw/db": "*",
+    "@agentclaw/mikrotik": "*",
+    "node-cron": "^3.0.3",
+    "crypto": "^1.0.1",
+    "qrcode": "^1.5.3",
+    "nodemailer": "^6.9.14",
+    "axios": "^1.7.2",
+    "firebase-admin": "^12.2.0",
+    "stripe": "^15.12.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.14.0",
+    "@types/nodemailer": "^6.4.15",
+    "@types/qrcode": "^1.5.5",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "ts-jest": "^29.1.5"
+  }
+}
