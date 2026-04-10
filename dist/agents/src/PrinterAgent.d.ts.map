@@ -1,0 +1,1 @@
+{"version":3,"file":"PrinterAgent.d.ts","sourceRoot":"","sources":["../../../packages/agents/src/PrinterAgent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAqC,MAAM,mBAAmB,CAAC;AAE9E,qBAAa,YAAa,YAAW,MAAM;IACzC,QAAQ,CAAC,IAAI,kBAAkB;IAEzB,KAAK,IAAI,OAAO,CAAC,IAAI,CAAC;IAiBtB,IAAI,IAAI,OAAO,CAAC,IAAI,CAAC;YAEb,YAAY;CAW3B"}
